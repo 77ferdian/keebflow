@@ -27,8 +27,8 @@ Keebflow offers a structured typing practice experience with real-time performan
 - Multiple typing modes: timed, word count, sentence, and code snippet
 - Adaptive weak-key drill engine with automatic healing and decay tracking
 - Real-time WPM, accuracy, and raw error statistics
-- Backspace-to-previous-word correction (Monkeytype-style)
-- Auto-finish on last character — no trailing space required
+- Backspace-to-previous-word correction
+- Auto-finish on last character with no trailing space required
 - Personal best tracking and session streak system
 - Command palette for fast navigation and configuration
 - Bilingual support: Indonesian and English for both UI and word bank
