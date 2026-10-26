@@ -1,0 +1,13 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Keycap Top Dish Facet -->
+  <path d="M 32 38 L 54 28 L 68 38 L 46 48 Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+  <!-- Keycap Skirt & Base -->
+  <path d="M 32 38 L 24 64 L 52 76 L 74 62 L 68 38" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 46 48 L 52 76" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+  <!-- Switch Center Stem -->
+  <circle cx="50" cy="38" r="3" fill="currentColor" />
+  <!-- Acoustic Soundwaves -->
+  <path d="M 72 26 C 77 31, 80 37, 80 44" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" />
+  <path d="M 79 19 C 86 26, 90 35, 90 46" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" opacity="0.6" />
+  <path d="M 86 12 C 95 21, 98 32, 98 44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
+</svg>

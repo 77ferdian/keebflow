@@ -1,0 +1,10 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer Ring with open breath -->
+  <path d="M 50 16 A 34 34 0 1 1 20 62" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+  <!-- Tactile Bump Curve -->
+  <path d="M 22 56 C 32 56, 38 34, 48 34 C 54 34, 58 48, 68 48 C 76 48, 80 40, 84 40" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+  <!-- Actuation Point -->
+  <circle cx="48" cy="34" r="4.5" fill="currentColor" />
+  <!-- Calibration Arc -->
+  <circle cx="50" cy="50" r="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.35" />
+</svg>

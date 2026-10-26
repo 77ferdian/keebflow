@@ -1,0 +1,10 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Vertical Switch Pillar ('K' stem) -->
+  <rect x="22" y="22" width="8" height="56" rx="4" fill="currentColor" />
+  <!-- Upper Stream Ribbon -->
+  <path d="M 32 50 C 44 50, 52 38, 62 26 L 76 26" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Lower Stream Ribbon -->
+  <path d="M 40 44 L 56 64 C 62 72, 68 74, 78 74" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Switch Cross Accent -->
+  <circle cx="38" cy="50" r="3" fill="currentColor" />
+</svg>

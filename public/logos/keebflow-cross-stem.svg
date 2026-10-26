@@ -1,0 +1,11 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Keycap profile outline with open breath corner -->
+  <rect x="18" y="18" width="64" height="64" rx="16" stroke="currentColor" stroke-width="3.5" stroke-dasharray="190 28" stroke-dashoffset="14" />
+  <!-- Mechanical Switch Cross Stem (+) -->
+  <rect x="46" y="36" width="8" height="28" rx="2.5" fill="currentColor" />
+  <rect x="36" y="46" width="28" height="8" rx="2.5" fill="currentColor" />
+  <!-- Sweeping Flow Arc -->
+  <path d="M 50 26 C 68 26, 82 40, 82 58 C 82 72, 70 82, 56 82 C 44 82, 34 74, 30 64" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity="0.45" />
+  <!-- Flow Accent Node -->
+  <circle cx="82" cy="54" r="3" fill="currentColor" />
+</svg>
