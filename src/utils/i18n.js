@@ -61,12 +61,47 @@ export const dictionary = {
     // Mode Selector
     modeTime: "waktu",
     modeWords: "kata",
+    modeQuote: "kutipan",
     modeCode: "koding",
     modeDaily: "harian",
+    modeCustom: "kustom",
     modeDrillBadge: "latihan tombol lemah",
+    togglePunctuation: "tanda baca",
+    toggleNumbers: "angka",
+    quoteLengthAll: "semua",
+    quoteLengthShort: "pendek",
+    quoteLengthMedium: "sedang",
+    quoteLengthLong: "panjang",
     wordsCountSuffix: "kata",
     secondsSuffix: "s",
     quoteBadge: "kutipan",
+
+    // Teks Kustom (Custom Word List)
+    customModalTitle: "Teks Kustom",
+    customModalDesc: "Ketik atau tempel teks Anda sendiri untuk latihan pengetikan yang dipersonalisasi.",
+    customModalPlaceholder: "Tempel atau ketik kata-kata/teks di sini...",
+    customModalShuffle: "Acak Urutan Kata",
+    customModalSave: "Simpan & Terapkan",
+    customModalPreset: "Preset Cepat:",
+    customPresetPangram: "Pangram",
+    customPresetTech: "Istilah Teknologi",
+    customWordCount: "kata terdeteksi",
+
+    // Grafik Progress Historis
+    historyTitle: "Grafik & Riwayat Performa",
+    historySubtitle: "Pantau tren kecepatan (WPM) dan akurasi dari setiap sesi latihan Anda.",
+    historyTotalTests: "Total Sesi",
+    historyAvgWpm: "Rata-rata WPM",
+    historyAvgAcc: "Rata-rata Akurasi",
+    historyBestWpm: "WPM Tertinggi",
+    historyEmpty: "Belum ada riwayat sesi. Selesaikan satu sesi untuk melihat grafik perkembangan Anda!",
+    historyClear: "Hapus Riwayat",
+    historyConfirmClear: "Apakah Anda yakin ingin menghapus semua riwayat tes?",
+    viewHistoryBtn: "Riwayat & Tren",
+
+    // PWA (Installable App)
+    installAppBtn: "Pasang App",
+    installAppPrompt: "Pasang Keebflow ke desktop/HP untuk akses offline mandiri",
 
     // Typing Canvas & IDE
     capsLockWarning: "CAPS LOCK AKTIF",
@@ -238,12 +273,47 @@ export const dictionary = {
     // Mode Selector
     modeTime: "time",
     modeWords: "words",
+    modeQuote: "quote",
     modeCode: "code",
     modeDaily: "daily",
+    modeCustom: "custom",
     modeDrillBadge: "weak key drill",
+    togglePunctuation: "punctuation",
+    toggleNumbers: "numbers",
+    quoteLengthAll: "all",
+    quoteLengthShort: "short",
+    quoteLengthMedium: "medium",
+    quoteLengthLong: "long",
     wordsCountSuffix: "words",
     secondsSuffix: "s",
     quoteBadge: "quote",
+
+    // Custom Word List
+    customModalTitle: "Custom Text",
+    customModalDesc: "Type or paste your own custom text for personalized practice sessions.",
+    customModalPlaceholder: "Paste or type words/text here...",
+    customModalShuffle: "Randomize Word Order",
+    customModalSave: "Save & Apply",
+    customModalPreset: "Quick Presets:",
+    customPresetPangram: "Pangram",
+    customPresetTech: "Tech Terms",
+    customWordCount: "words detected",
+
+    // Historical Progress Chart
+    historyTitle: "Performance & History Chart",
+    historySubtitle: "Track speed (WPM) and accuracy trends across all your practice sessions.",
+    historyTotalTests: "Total Tests",
+    historyAvgWpm: "Average WPM",
+    historyAvgAcc: "Average Accuracy",
+    historyBestWpm: "Peak WPM",
+    historyEmpty: "No test history yet. Complete a session to see your growth chart!",
+    historyClear: "Clear History",
+    historyConfirmClear: "Are you sure you want to delete all test history records?",
+    viewHistoryBtn: "History & Trends",
+
+    // PWA (Installable App)
+    installAppBtn: "Install App",
+    installAppPrompt: "Install Keebflow to desktop/mobile for standalone offline practice",
 
     // Typing Canvas & IDE
     capsLockWarning: "CAPS LOCK ON",

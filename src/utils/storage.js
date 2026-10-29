@@ -6,6 +6,7 @@ const STORAGE_KEYS = {
   STATS_HISTORY: 'keebflow_history',
   KEY_ANALYTICS: 'keebflow_keys',
   SETTINGS: 'keebflow_settings',
+  CUSTOM_TEXT: 'keebflow_custom_text',
 };
 
 export const defaultSettings = {
@@ -182,5 +183,92 @@ export function clearKeyAnalytics() {
     return {};
   } catch {
     return {};
+  }
+}
+
+/**
+ * Pengelolaan Riwayat Tes & Perkembangan Historis (Progress History)
+ */
+export function getStatsHistory() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.STATS_HISTORY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveTestResult(testResult) {
+  try {
+    const history = getStatsHistory();
+    const newEntry = {
+      id: Date.now(),
+      timestamp: Date.now(),
+      date: new Date().toISOString(),
+      wpm: testResult.wpm || 0,
+      rawWpm: testResult.rawWpm || 0,
+      accuracy: testResult.accuracy || 100,
+      consistency: testResult.consistency || 85,
+      mode: testResult.mode || 'time',
+      subOption: testResult.subOption || 30,
+      language: testResult.language || 'id',
+      isNewPB: !!testResult.isNewPB
+    };
+    // Simpan hingga 100 catatan tes terakhir
+    const updated = [newEntry, ...history].slice(0, 100);
+    localStorage.setItem(STORAGE_KEYS.STATS_HISTORY, JSON.stringify(updated));
+    return updated;
+  } catch (e) {
+    console.error('Failed to save test result', e);
+    return getStatsHistory();
+  }
+}
+
+export function clearStatsHistory() {
+  try {
+    localStorage.removeItem(STORAGE_KEYS.STATS_HISTORY);
+    return [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Pengelolaan Teks Kustom Pengguna (Custom Word List / Custom Text)
+ */
+export const DEFAULT_CUSTOM_TEXT =
+  "Keebflow dirancang untuk memberikan kenyamanan dan ketepatan ritme pengetikan setiap hari.";
+
+export function getCustomText() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.CUSTOM_TEXT);
+    if (!raw) {
+      return {
+        text: DEFAULT_CUSTOM_TEXT,
+        shuffle: false
+      };
+    }
+    return JSON.parse(raw);
+  } catch {
+    return {
+      text: DEFAULT_CUSTOM_TEXT,
+      shuffle: false
+    };
+  }
+}
+
+export function saveCustomText(text, shuffle = false) {
+  try {
+    const payload = {
+      text: text && text.trim() ? text.trim() : DEFAULT_CUSTOM_TEXT,
+      shuffle: !!shuffle
+    };
+    localStorage.setItem(STORAGE_KEYS.CUSTOM_TEXT, JSON.stringify(payload));
+    return payload;
+  } catch (e) {
+    console.error('Failed to save custom text', e);
+    return { text, shuffle };
   }
 }

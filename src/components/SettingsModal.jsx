@@ -11,9 +11,9 @@ export default function SettingsModal({
   settings,
   onUpdateSettings
 }) {
+  const { locale, setLocale, t } = useLocale();
   if (!isOpen) return null;
   const themeObj = getTheme(settings.theme);
-  const { locale, setLocale, t } = useLocale();
 
   const handleVolumeChange = (vol) => {
     const val = parseFloat(vol);

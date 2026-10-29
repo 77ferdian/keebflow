@@ -13,6 +13,8 @@ import {
 import { soundEngine } from '../utils/soundEngine';
 import { getTheme } from '../utils/themeConfig';
 import { useLocale } from '../contexts/LocaleContext';
+import ProgressHistoryChart from './ProgressHistoryChart';
+import { getStatsHistory, clearStatsHistory } from '../utils/storage';
 
 export default function CommandHub({
   personalBest,
@@ -28,6 +30,8 @@ export default function CommandHub({
 }) {
   const [warmupText, setWarmupText] = useState('');
   const [activeKeyEffect, setActiveKeyEffect] = useState(null);
+  const [historyList, setHistoryList] = useState(() => getStatsHistory());
+  const [showHistory, setShowHistory] = useState(false);
   const themeObj = getTheme(theme);
   const { t } = useLocale();
 
@@ -342,10 +346,47 @@ export default function CommandHub({
           </div>
         </div>
 
-        <div className="text-zinc-500 text-xs hidden sm:flex items-center space-x-1.5">
-          <span>{t.hubPressKeyHint}</span>
+        <div className="flex items-center space-x-3">
+          <button
+            type="button"
+            onClick={() => {
+              setHistoryList(getStatsHistory());
+              setShowHistory(!showHistory);
+            }}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 text-xs transition-colors"
+          >
+            <Activity size={13} style={{ color: themeObj.primary }} />
+            <span>{showHistory ? 'Sembunyikan Grafik' : t.viewHistoryBtn}</span>
+          </button>
+          <div className="text-zinc-500 text-xs hidden sm:flex items-center space-x-1.5">
+            <span>{t.hubPressKeyHint}</span>
+          </div>
         </div>
       </div>
+
+      {/* 5. Bagian Grafik Performa & Riwayat */}
+      {showHistory && (
+        <div className="mt-6 animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-3xl p-5 backdrop-blur-md shadow-2xl">
+            <div className="mb-4">
+              <h2 className="text-sm font-bold text-zinc-200 flex items-center space-x-2">
+                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: themeObj.primary }} />
+                <span>{t.historyTitle}</span>
+              </h2>
+              <p className="text-xs text-zinc-500 font-sans mt-0.5">{t.historySubtitle}</p>
+            </div>
+            <ProgressHistoryChart
+              isEmbedded={true}
+              historyData={historyList}
+              onClearHistory={() => {
+                clearStatsHistory();
+                setHistoryList([]);
+              }}
+              theme={theme}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

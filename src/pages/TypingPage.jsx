@@ -5,15 +5,17 @@ import ModeSelector from '../components/ModeSelector';
 import TypingCanvas from '../components/TypingCanvas';
 import IdeCodeCanvas from '../components/IdeCodeCanvas';
 import ResultModal from '../components/ResultModal';
+import CustomTextModal from '../components/CustomTextModal';
 import { soundEngine } from '../utils/soundEngine';
 import {
   getRandomWords,
   generateWeaknessDrill,
-  INDONESIAN_QUOTES,
-  ENGLISH_QUOTES,
+  getRandomQuote,
+  parseCustomText,
   CODE_SNIPPETS,
   parseCodeSnippet
 } from '../utils/words';
+import { saveTestResult, getCustomText } from '../utils/storage';
 import { useTheme } from '../contexts/ThemeContext';
 import { useLocale } from '../contexts/LocaleContext';
 
@@ -36,15 +38,16 @@ export default function TypingPage({
 
   // Mode & Opsi dari Parameter Rute (Grounded React Router useParams Pattern)
   const [mode, setMode] = useState(() => {
-    if (['time', 'words', 'code', 'daily', 'drill'].includes(modeParam)) {
+    if (['time', 'words', 'quote', 'code', 'daily', 'custom', 'drill'].includes(modeParam)) {
       return modeParam === 'drill' ? 'time' : modeParam;
     }
     return 'time';
   });
 
   const [subOption, setSubOption] = useState(() => {
-    const qSub = Number(searchParams.get('sub'));
-    if (qSub && [15, 30, 60, 10, 25, 50].includes(qSub)) return qSub;
+    const qSub = searchParams.get('sub');
+    if (qSub && [15, 30, 60, 10, 25, 50].includes(Number(qSub))) return Number(qSub);
+    if (qSub && ['all', 'short', 'medium', 'long'].includes(qSub)) return qSub;
     return 30;
   });
 
@@ -56,6 +59,10 @@ export default function TypingPage({
 
   const [isDrillActive, setIsDrillActive] = useState(modeParam === 'drill');
   const [activeDrillKeys, setActiveDrillKeys] = useState([]);
+  const [hasPunctuation, setHasPunctuation] = useState(false);
+  const [hasNumbers, setHasNumbers] = useState(false);
+  const [quoteAuthor, setQuoteAuthor] = useState('');
+  const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
 
   // Status Kata & Ketikan Aktif
   const [words, setWords] = useState([]);
@@ -128,11 +135,14 @@ export default function TypingPage({
       activeSubOption = 30;
     } else if (activeMode === 'words' && ![10, 25, 50].includes(activeSubOption)) {
       activeSubOption = 25;
+    } else if ((activeMode === 'quote' || activeMode === 'daily') && !['all', 'short', 'medium', 'long'].includes(activeSubOption)) {
+      activeSubOption = 'all';
     }
 
     let newWords = [];
     let newCodeTokens = [];
     let selectedSnippet = null;
+    let authorName = '';
 
     if (drillKeys && drillKeys.length > 0) {
       newWords = generateWeaknessDrill(drillKeys, 30, currentTextLanguage);
@@ -145,18 +155,35 @@ export default function TypingPage({
         selectedSnippet = snippets[Math.floor(Math.random() * snippets.length)];
         newCodeTokens = parseCodeSnippet(selectedSnippet);
         newWords = newCodeTokens.map((t) => t.text);
-      } else if (activeMode === 'daily') {
-        const quotesPool = currentTextLanguage === 'id' ? INDONESIAN_QUOTES : ENGLISH_QUOTES;
-        const quote = quotesPool[Math.floor(Math.random() * quotesPool.length)];
-        newWords = quote.split(' ');
+      } else if (activeMode === 'quote' || activeMode === 'daily') {
+        const qObj = getRandomQuote(currentTextLanguage, activeSubOption);
+        newWords = qObj.words;
+        authorName = qObj.author;
+      } else if (activeMode === 'custom') {
+        const custom = getCustomText();
+        newWords = parseCustomText(custom.text, custom.shuffle);
+        if (newWords.length === 0) {
+          newWords = getRandomWords(25, 'common', currentTextLanguage, {
+            punctuation: hasPunctuation,
+            numbers: hasNumbers
+          });
+        }
       } else if (activeMode === 'words') {
-        newWords = getRandomWords(activeSubOption, 'common', currentTextLanguage);
+        newWords = getRandomWords(activeSubOption, 'common', currentTextLanguage, {
+          punctuation: hasPunctuation,
+          numbers: hasNumbers
+        });
       } else {
-        newWords = getRandomWords(60, 'common', currentTextLanguage);
+        // Mode 'time' (default)
+        newWords = getRandomWords(80, 'common', currentTextLanguage, {
+          punctuation: hasPunctuation,
+          numbers: hasNumbers
+        });
       }
     }
 
     setWords(newWords);
+    setQuoteAuthor(authorName);
     setCodeTokens(newCodeTokens);
     setActiveSnippet(selectedSnippet);
     setCurrentWordIdx(0);
@@ -181,18 +208,21 @@ export default function TypingPage({
   // Muat kata awal & sinkronisasi penuh dengan rute URL (Single Source of Truth)
   useEffect(() => {
     const isDrill = modeParam === 'drill';
-    const validModes = ['time', 'words', 'code', 'daily'];
+    const validModes = ['time', 'words', 'quote', 'code', 'daily', 'custom'];
     const resolvedMode = isDrill ? 'time' : (validModes.includes(modeParam) ? modeParam : 'time');
 
     setMode(resolvedMode);
     setIsDrillActive(isDrill);
 
-    const qSub = Number(searchParams.get('sub'));
+    const qSubRaw = searchParams.get('sub');
+    const qSubNum = Number(qSubRaw);
     let resolvedSub = 30;
     if (resolvedMode === 'time') {
-      resolvedSub = (qSub && [15, 30, 60].includes(qSub)) ? qSub : 30;
+      resolvedSub = (qSubNum && [15, 30, 60].includes(qSubNum)) ? qSubNum : 30;
     } else if (resolvedMode === 'words') {
-      resolvedSub = (qSub && [10, 25, 50].includes(qSub)) ? qSub : 25;
+      resolvedSub = (qSubNum && [10, 25, 50].includes(qSubNum)) ? qSubNum : 25;
+    } else if (resolvedMode === 'quote' || resolvedMode === 'daily') {
+      resolvedSub = (qSubRaw && ['all', 'short', 'medium', 'long'].includes(qSubRaw)) ? qSubRaw : 'all';
     }
     setSubOption(resolvedSub);
 
@@ -222,7 +252,7 @@ export default function TypingPage({
       setActiveDrillKeys([]);
       initTestWords(null, resolvedCodeLang, resolvedMode, currentTypingLang, resolvedSub);
     }
-  }, [modeParam, searchParams, settings.language]);
+  }, [modeParam, searchParams, settings.language, hasPunctuation, hasNumbers]);
 
   // Interval Waktu
   useEffect(() => {
@@ -287,6 +317,18 @@ export default function TypingPage({
       isDrillActive ? activeDrillKeys : [],
       finalAcc
     );
+
+    // Rekam sesi ke riwayat perkembangan historis
+    saveTestResult({
+      wpm: finalWpm,
+      rawWpm: finalRawWpm,
+      accuracy: finalAcc,
+      consistency: finalConsistency,
+      mode: isDrillActive ? 'drill' : mode,
+      subOption: subOption,
+      language: settings.language || 'id',
+      isNewPB: isNew
+    });
 
     // Timeline Grafik Detik demi Detik
     const totalSecs = Math.max(1, Math.ceil(timeElapsedSec));
@@ -638,9 +680,17 @@ export default function TypingPage({
   }, [inputVal, currentWordIdx, isFinished, mode]);
 
   const handleModeChange = (newMode) => {
-    const defaultSub = newMode === 'time' ? 30 : newMode === 'words' ? 25 : null;
+    let defaultSub = null;
+    if (newMode === 'time') defaultSub = 30;
+    else if (newMode === 'words') defaultSub = 25;
+    else if (newMode === 'quote') defaultSub = 'all';
+
     const search = defaultSub ? `?sub=${defaultSub}` : '';
     navigate(`/type/${newMode}${search}`);
+
+    if (newMode === 'custom') {
+      setIsCustomModalOpen(true);
+    }
   };
 
   const handleSubOptionChange = (newVal) => {
@@ -676,7 +726,8 @@ export default function TypingPage({
     else if (mode === 'time') modeText = `time ${subOption}s`;
     else if (mode === 'words') modeText = `words ${subOption}`;
     else if (mode === 'code') modeText = `code (${codeLanguage})`;
-    else if (mode === 'daily') modeText = 'daily quote';
+    else if (mode === 'quote' || mode === 'daily') modeText = `quote (${subOption})`;
+    else if (mode === 'custom') modeText = 'custom text';
 
     return {
       mode: modeText,
@@ -700,6 +751,20 @@ export default function TypingPage({
         }
       }}
     >
+      {/* Modal Pengaturan Teks Kustom */}
+      <CustomTextModal
+        isOpen={isCustomModalOpen}
+        onClose={() => setIsCustomModalOpen(false)}
+        onApplyCustomText={(cleanText, shuffle) => {
+          const parsed = parseCustomText(cleanText, shuffle);
+          setWords(parsed.length > 0 ? parsed : ['keebflow']);
+          setCurrentWordIdx(0);
+          setInputVal('');
+          setWordHistory({});
+        }}
+        theme={theme}
+      />
+
       {/* Input tersembunyi untuk penangkapan ketukan 0ms */}
       <input
         ref={inputRef}
@@ -729,6 +794,17 @@ export default function TypingPage({
             isDrillActive={isDrillActive}
             drillKeys={activeDrillKeys}
             onClearDrill={handleClearDrill}
+            hasPunctuation={hasPunctuation}
+            onTogglePunctuation={() => {
+              const nextVal = !hasPunctuation;
+              setHasPunctuation(nextVal);
+            }}
+            hasNumbers={hasNumbers}
+            onToggleNumbers={() => {
+              const nextVal = !hasNumbers;
+              setHasNumbers(nextVal);
+            }}
+            onOpenCustomModal={() => setIsCustomModalOpen(true)}
             theme={theme}
           />
         </div>
@@ -756,23 +832,31 @@ export default function TypingPage({
             theme={theme}
           />
         ) : (
-          <TypingCanvas
-            words={words}
-            currentWordIdx={currentWordIdx}
-            inputVal={inputVal}
-            wordHistory={wordHistory}
-            ghostIndex={ghostIndex}
-            showGhostCaret={settings.showGhostCaret}
-            timeLeft={timeLeft}
-            liveWpm={liveWpm}
-            isActive={isActive}
-            mode={mode}
-            zenMode={settings.zenMode}
-            caretStyle={settings.caretStyle}
-            fontSize={settings.fontSize}
-            isCapsLock={isCapsLock}
-            theme={theme}
-          />
+          <div>
+            <TypingCanvas
+              words={words}
+              currentWordIdx={currentWordIdx}
+              inputVal={inputVal}
+              wordHistory={wordHistory}
+              ghostIndex={ghostIndex}
+              showGhostCaret={settings.showGhostCaret}
+              timeLeft={timeLeft}
+              liveWpm={liveWpm}
+              isActive={isActive}
+              mode={mode}
+              zenMode={settings.zenMode}
+              caretStyle={settings.caretStyle}
+              fontSize={settings.fontSize}
+              isCapsLock={isCapsLock}
+              theme={theme}
+            />
+            {/* Penanda Penulis Kutipan (Quote Attribution) */}
+            {(mode === 'quote' || mode === 'daily') && quoteAuthor && (
+              <div className="text-right text-xs text-zinc-500 font-mono tracking-wide mt-3 pr-2 select-none animate-in fade-in duration-300">
+                — <span className="text-zinc-400 font-semibold">{quoteAuthor}</span>
+              </div>
+            )}
+          </div>
         )
       ) : (
         <ResultModal

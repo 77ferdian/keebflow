@@ -1,6 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Clock, Type, Code2, Calendar, Target, Globe, X } from 'lucide-react';
+import {
+  Clock,
+  Type,
+  Code2,
+  Quote,
+  Sliders,
+  Target,
+  Globe,
+  X,
+  FileText,
+  Hash,
+  AtSign
+} from 'lucide-react';
 import { getTheme } from '../utils/themeConfig';
 import { useLocale } from '../contexts/LocaleContext';
 
@@ -16,15 +28,57 @@ export default function ModeSelector({
   isDrillActive,
   drillKeys = [],
   onClearDrill,
+  hasPunctuation = false,
+  onTogglePunctuation = null,
+  hasNumbers = false,
+  onToggleNumbers = null,
+  onOpenCustomModal = null,
   theme = 'nord'
 }) {
   const themeObj = getTheme(theme);
   const { t } = useLocale();
 
+  const isQuoteMode = mode === 'quote' || mode === 'daily';
+
   return (
-    <div className="max-w-fit mx-auto bg-zinc-900/70 border border-zinc-800/80 rounded-full px-4 py-1.5 flex items-center space-x-4 sm:space-x-5 text-xs backdrop-blur-md shadow-lg transition-all duration-200">
-      {/* Pilihan Kategori Mode */}
-      <div className="flex items-center space-x-3.5 text-zinc-400">
+    <div className="max-w-fit mx-auto bg-zinc-900/80 border border-zinc-800/80 rounded-full px-3.5 sm:px-4 py-1.5 flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4 gap-y-1.5 text-xs backdrop-blur-md shadow-lg transition-all duration-200">
+      {/* 1. Toggle Punctuation & Numbers (Monkeytype Style) */}
+      {onTogglePunctuation && onToggleNumbers && (mode === 'time' || mode === 'words') && !isDrillActive && (
+        <>
+          <div className="flex items-center space-x-2 text-[11px]">
+            <button
+              type="button"
+              onClick={onTogglePunctuation}
+              className={`flex items-center space-x-1 px-1.5 py-0.5 rounded transition-all ${
+                hasPunctuation ? 'font-bold' : 'text-zinc-500 hover:text-zinc-300'
+              }`}
+              style={hasPunctuation ? { color: themeObj.primary } : {}}
+              title="Sertakan tanda baca dan huruf besar"
+            >
+              <AtSign size={11} />
+              <span>{t.togglePunctuation}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={onToggleNumbers}
+              className={`flex items-center space-x-1 px-1.5 py-0.5 rounded transition-all ${
+                hasNumbers ? 'font-bold' : 'text-zinc-500 hover:text-zinc-300'
+              }`}
+              style={hasNumbers ? { color: themeObj.primary } : {}}
+              title="Sertakan angka acak di antara kata"
+            >
+              <Hash size={11} />
+              <span>{t.toggleNumbers}</span>
+            </button>
+          </div>
+
+          <span className="w-1 h-1 rounded-full bg-zinc-700 hidden sm:inline-block" />
+        </>
+      )}
+
+      {/* 2. Kategori Mode Utama */}
+      <div className="flex items-center space-x-3 text-zinc-400">
         <button
           type="button"
           onClick={() => onModeChange('time')}
@@ -53,6 +107,19 @@ export default function ModeSelector({
 
         <button
           type="button"
+          onClick={() => onModeChange('quote')}
+          className={`flex items-center space-x-1 transition-colors ${
+            isQuoteMode && !isDrillActive ? 'font-semibold' : 'hover:text-zinc-200'
+          }`}
+          style={isQuoteMode && !isDrillActive ? { color: themeObj.primary } : {}}
+          title={t.quoteBadge}
+        >
+          <Quote size={12} />
+          <span>{t.modeQuote}</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => onModeChange('code')}
           className={`flex items-center space-x-1 transition-colors ${
             mode === 'code' && !isDrillActive ? 'font-semibold' : 'hover:text-zinc-200'
@@ -66,23 +133,23 @@ export default function ModeSelector({
 
         <button
           type="button"
-          onClick={() => onModeChange('daily')}
+          onClick={() => onModeChange('custom')}
           className={`flex items-center space-x-1 transition-colors ${
-            mode === 'daily' && !isDrillActive ? 'font-semibold' : 'hover:text-zinc-200'
+            mode === 'custom' && !isDrillActive ? 'font-semibold' : 'hover:text-zinc-200'
           }`}
-          style={mode === 'daily' && !isDrillActive ? { color: themeObj.primary } : {}}
-          title={t.modeDailyTitle}
+          style={mode === 'custom' && !isDrillActive ? { color: themeObj.primary } : {}}
+          title={t.customModalTitle}
         >
-          <Calendar size={12} />
-          <span>{t.modeDaily}</span>
+          <FileText size={12} />
+          <span>{t.modeCustom}</span>
         </button>
       </div>
 
       {/* Pembatas */}
       <span className="w-1 h-1 rounded-full bg-zinc-700" />
 
-      {/* Sub-Pilihan */}
-      <div className="flex items-center space-x-2.5">
+      {/* 3. Sub-Pilihan Berdasarkan Mode */}
+      <div className="flex items-center space-x-2">
         {isDrillActive ? (
           <div className="flex items-center space-x-1.5">
             <span
@@ -137,6 +204,32 @@ export default function ModeSelector({
               {w} {t.wordsCountSuffix}
             </button>
           ))
+        ) : isQuoteMode ? (
+          ['all', 'short', 'medium', 'long'].map((len) => (
+            <button
+              type="button"
+              key={len}
+              onClick={() => onSubOptionChange(len)}
+              className={`transition-colors duration-150 text-[11px] ${
+                subOption === len || (!subOption && len === 'all')
+                  ? 'font-bold'
+                  : 'text-zinc-500 hover:text-zinc-300'
+              }`}
+              style={
+                subOption === len || (!subOption && len === 'all')
+                  ? { color: themeObj.primary }
+                  : {}
+              }
+            >
+              {len === 'all'
+                ? t.quoteLengthAll
+                : len === 'short'
+                ? t.quoteLengthShort
+                : len === 'medium'
+                ? t.quoteLengthMedium
+                : t.quoteLengthLong}
+            </button>
+          ))
         ) : mode === 'code' ? (
           <div className="flex items-center space-x-2">
             {[
@@ -157,13 +250,22 @@ export default function ModeSelector({
               </button>
             ))}
           </div>
+        ) : mode === 'custom' ? (
+          <button
+            type="button"
+            onClick={onOpenCustomModal}
+            className="flex items-center space-x-1 text-zinc-400 hover:text-zinc-200 px-2 py-0.5 rounded-lg border border-zinc-800 bg-zinc-900/60 transition-colors"
+          >
+            <Sliders size={11} style={{ color: themeObj.primary }} />
+            <span>Ubah Teks</span>
+          </button>
         ) : (
           <span className="text-zinc-500">{t.quoteBadge}</span>
         )}
       </div>
 
-      {/* Penanda Bahasa Kosakata */}
-      {mode !== 'code' && (
+      {/* 4. Penanda Bahasa Kosakata */}
+      {mode !== 'code' && mode !== 'custom' && (
         <>
           <span className="w-1 h-1 rounded-full bg-zinc-700" />
           <button
@@ -193,5 +295,10 @@ ModeSelector.propTypes = {
   isDrillActive: PropTypes.bool,
   drillKeys: PropTypes.arrayOf(PropTypes.string),
   onClearDrill: PropTypes.func.isRequired,
+  hasPunctuation: PropTypes.bool,
+  onTogglePunctuation: PropTypes.func,
+  hasNumbers: PropTypes.bool,
+  onToggleNumbers: PropTypes.func,
+  onOpenCustomModal: PropTypes.func,
   theme: PropTypes.string
 };

@@ -7,6 +7,7 @@ import TypingPage from './pages/TypingPage';
 import NotFoundPage from './pages/NotFoundPage';
 import CommandPalette from './components/CommandPalette';
 import SettingsModal from './components/SettingsModal';
+import ProgressHistoryChart from './components/ProgressHistoryChart';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { LocaleProvider, useLocale } from './contexts/LocaleContext';
 import {
@@ -18,18 +19,22 @@ import {
   updateStreak,
   getKeyAnalytics,
   recordKeyErrors,
-  clearKeyAnalytics
+  clearKeyAnalytics,
+  getStatsHistory,
+  clearStatsHistory
 } from './utils/storage';
 
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme, themeObj, changeTheme } = useTheme();
-  const { locale, setLocale, toggleLocale, t } = useLocale();
+  const { locale, setLocale, t } = useLocale();
 
   // Dialog Modal
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [historyList, setHistoryList] = useState(() => getStatsHistory());
 
   // Status Pengguna
   const [settings, setSettings] = useState(() => getSettings());
@@ -151,6 +156,18 @@ function AppContent() {
         onUpdateSettings={handleUpdateSettings}
       />
 
+      {/* Modal Riwayat & Grafik Performa */}
+      <ProgressHistoryChart
+        isOpen={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
+        historyData={historyList}
+        onClearHistory={() => {
+          clearStatsHistory();
+          setHistoryList([]);
+        }}
+        theme={theme}
+      />
+
       {/* 1. Bilah Navigasi Atas (Header Global) */}
       <Header
         streak={streak}
@@ -165,6 +182,10 @@ function AppContent() {
           else navigate('/type');
         }}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        onOpenHistory={() => {
+          setHistoryList(getStatsHistory());
+          setIsHistoryOpen(true);
+        }}
       />
 
       {/* 2. Area Rute Utama (Single-Page Application dengan React Router v6) */}

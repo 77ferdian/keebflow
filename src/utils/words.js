@@ -53,25 +53,281 @@ export const ENGLISH_WORDS = [
   "deep", "free", "pure", "true", "warm", "brave", "fresh", "still", "vital", "bold"
 ];
 
-// 3. Kutipan Harian Bahasa Indonesia
+// 3. Koleksi Kutipan Kaya Bahasa Indonesia (Quotes Mode)
 export const INDONESIAN_QUOTES = [
-  "Kecepatan sejati lahir dari ketenangan pikiran dan keteraturan ritme, bukan ketergesa-gesaan.",
-  "Setiap ketukan kecil yang konsisten hari ini adalah fondasi dari keahlian luar biasa esok hari.",
-  "Fokus bukanlah tentang melakukan segalanya, melainkan ketenangan untuk menuntaskan satu hal dengan sempurna.",
-  "Menulis dan mengetik adalah jembatan paling intim antara keheningan pikiran dan wujud karya nyata.",
-  "Bila kamu ingin melatih jarimu menguasai kata, mulailah dengan membiarkan pikiranmu mengalir tanpa ragu.",
-  "Dalam kesunyian setiap baris kode dan kata yang tertulis, tersimpan kekuatan untuk mengubah dunia nyata."
+  {
+    id: "id-q1",
+    author: "B.J. Habibie",
+    text: "Keberhasilan bukanlah milik orang yang pintar, keberhasilan adalah kepunyaan mereka yang senantiasa berusaha dan tidak pernah menyerah.",
+    length: "medium"
+  },
+  {
+    id: "id-q2",
+    author: "Pramoedya Ananta Toer",
+    text: "Orang boleh pandai setinggi langit, tapi selama ia tidak menulis, ia akan hilang di dalam masyarakat dan dari sejarah.",
+    length: "medium"
+  },
+  {
+    id: "id-q3",
+    author: "Soekarno",
+    text: "Beri aku seribu orang tua niscaya akan kucabut Semeru dari akarnya. Beri aku sepuluh pemuda niscaya akan kuguncangkan dunia.",
+    length: "medium"
+  },
+  {
+    id: "id-q4",
+    author: "Ki Hajar Dewantara",
+    text: "Ing ngarsa sung tuladha, ing madya mangun karsa, tut wuri handayani.",
+    length: "short"
+  },
+  {
+    id: "id-q5",
+    author: "Tan Malaka",
+    text: "Ingatlah bahwa dari dalam kubur suara saya akan lebih keras daripada dari atas bumi.",
+    length: "short"
+  },
+  {
+    id: "id-q6",
+    author: "Abdurrahman Wahid (Gus Dur)",
+    text: "Menyesali nasib tidak akan mengubah keadaan. Terus berkarya dan bekerjalah yang membuat kita berharga di hadapan sesama.",
+    length: "medium"
+  },
+  {
+    id: "id-q7",
+    author: "R.A. Kartini",
+    text: "Tahukah engkau semboyanku? Aku mau! Dua patah kata yang ringkas itu sudah beberapa kali mendukung dan membawa aku melintasi gunung kesulitan.",
+    length: "medium"
+  },
+  {
+    id: "id-q8",
+    author: "Chairil Anwar",
+    text: "Aku ini binatang jalang dari kumpulannya terbuang. Biar peluru menembus kulitku aku tetap meradang menerjang.",
+    length: "short"
+  },
+  {
+    id: "id-q9",
+    author: "Mohammad Hatta",
+    text: "Kurang cerdas dapat diperbaiki dengan belajar, kurang cakap dapat dihilangkan dengan pengalaman, namun tidak jujur itu sulit diperbaiki.",
+    length: "medium"
+  },
+  {
+    id: "id-q10",
+    author: "Sapardi Djoko Damono",
+    text: "Aku ingin mencintaimu dengan sederhana, dengan kata yang tak sempat diucapkan kayu kepada api yang menjadikannya abu.",
+    length: "medium"
+  },
+  {
+    id: "id-q11",
+    author: "Buya Hamka",
+    text: "Jangan takut jatuh, karena yang tidak pernah memanjatlah yang tidak pernah jatuh.",
+    length: "short"
+  },
+  {
+    id: "id-q12",
+    author: "Munir Said Thalib",
+    text: "Kita harus bersikap tenang walau sedang gelisah, bingung dalam hening, dan tetap melangkah dengan teguh di tengah rintangan.",
+    length: "medium"
+  },
+  {
+    id: "id-q13",
+    author: "Filosofi Mengetik",
+    text: "Kecepatan sejati lahir dari ketenangan pikiran dan keteraturan ritme, bukan ketergesa-gesaan jemari di atas papan ketik.",
+    length: "short"
+  },
+  {
+    id: "id-q14",
+    author: "Keebflow Philosophy",
+    text: "Setiap ketukan kecil yang konsisten hari ini adalah fondasi dari keahlian luar biasa esok hari. Nikmati proses dan rasakan setiap aliran bunyi switch.",
+    length: "medium"
+  },
+  {
+    id: "id-q15",
+    author: "Fokus & Ritme",
+    text: "Fokus bukanlah tentang melakukan segalanya, melainkan ketenangan untuk menuntaskan satu hal dengan ketepatan sempurna.",
+    length: "short"
+  },
+  {
+    id: "id-q16",
+    author: "Wiji Thukul",
+    text: "Apabila usul ditolak tanpa ditimbang, suara dibungkam, kritik dilarang tanpa alasan, dituduh subversif dan mengganggu keamanan, maka hanya ada satu kata: lawan!",
+    length: "long"
+  },
+  {
+    id: "id-q17",
+    author: "Mochtar Lubis",
+    text: "Ketelitian dalam berpikir melahirkan kejujuran dalam bersikap dan keteguhan dalam memegang prinsip hidup.",
+    length: "short"
+  },
+  {
+    id: "id-q18",
+    author: "Sutan Sjahrir",
+    text: "Hidup yang tidak dipertaruhkan tidak akan pernah dimenangkan.",
+    length: "short"
+  },
+  {
+    id: "id-q19",
+    author: "Pramoedya Ananta Toer",
+    text: "Berterimakasihlah pada segala yang memberi kehidupan, bahkan pada rasa sakit yang mengajari kita arti ketahanan dan ketenangan batin.",
+    length: "medium"
+  },
+  {
+    id: "id-q20",
+    author: "Filosofi Kode",
+    text: "Dalam kesunyian setiap baris kode dan kata yang tertulis dengan rapi, tersimpan kekuatan besar untuk mengubah dunia nyata.",
+    length: "short"
+  }
 ];
 
-// 4. English Daily Quotes
+// 4. English Curated Quotes (Quotes Mode)
 export const ENGLISH_QUOTES = [
-  "Simplicity is prerequisite for reliability. Write code that feels like poetry and moves with purpose.",
-  "Focus is not about saying yes to things, it is about saying no to hundred other good ideas.",
-  "Consistency is the playground of mastery. Small deliberate strokes compound into extraordinary speed.",
-  "First make it work, then make it right, then make it fast. Flow follows precision.",
-  "The craft of typing is not merely mechanical, it is the bridge between human thought and digital reality.",
-  "Mastering keystrokes is not about rush, it is about finding harmony between the mind and the fingers."
+  {
+    id: "en-q1",
+    author: "Steve Jobs",
+    text: "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle.",
+    length: "medium"
+  },
+  {
+    id: "en-q2",
+    author: "Linus Torvalds",
+    text: "Talk is cheap. Show me the code.",
+    length: "short"
+  },
+  {
+    id: "en-q3",
+    author: "Alan Turing",
+    text: "Sometimes it is the people no one can imagine anything of who do the things that no one can imagine.",
+    length: "medium"
+  },
+  {
+    id: "en-q4",
+    author: "Marcus Aurelius",
+    text: "You have power over your mind, not outside events. Realize this, and you will find strength and peace.",
+    length: "short"
+  },
+  {
+    id: "en-q5",
+    author: "Carl Sagan",
+    text: "Somewhere, something incredible is waiting to be known in the quiet expanse of the cosmos.",
+    length: "short"
+  },
+  {
+    id: "en-q6",
+    author: "Edsger W. Dijkstra",
+    text: "Simplicity is prerequisite for reliability. Write code that feels like poetry and moves with purpose.",
+    length: "short"
+  },
+  {
+    id: "en-q7",
+    author: "Antoine de Saint-Exupery",
+    text: "Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.",
+    length: "medium"
+  },
+  {
+    id: "en-q8",
+    author: "James Clear",
+    text: "You do not rise to the level of your goals. You fall to the level of your systems.",
+    length: "short"
+  },
+  {
+    id: "en-q9",
+    author: "Grace Hopper",
+    text: "The most dangerous phrase in the language is, we have always done it this way.",
+    length: "short"
+  },
+  {
+    id: "en-q10",
+    author: "Albert Einstein",
+    text: "Strive not to be a success, but rather to be of value to those around you and to the craft you pursue.",
+    length: "medium"
+  },
+  {
+    id: "en-q11",
+    author: "Seneca",
+    text: "Luck is what happens when preparation meets opportunity. Every deliberate keystroke builds your foundation.",
+    length: "short"
+  },
+  {
+    id: "en-q12",
+    author: "Ada Lovelace",
+    text: "The Analytical Engine weaves algebraical patterns just as the Jacquard loom weaves flowers and leaves.",
+    length: "short"
+  },
+  {
+    id: "en-q13",
+    author: "Kent Beck",
+    text: "First make it work, then make it right, then make it fast. Flow follows precision.",
+    length: "short"
+  },
+  {
+    id: "en-q14",
+    author: "Lao Tzu",
+    text: "The journey of a thousand miles begins with a single step. Do your work, then step back.",
+    length: "short"
+  },
+  {
+    id: "en-q15",
+    author: "Martin Fowler",
+    text: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+    length: "medium"
+  },
+  {
+    id: "en-q16",
+    author: "Epictetus",
+    text: "Wealth consists not in having great possessions, but in having few wants. Freedom is the only worthy goal in life.",
+    length: "medium"
+  },
+  {
+    id: "en-q17",
+    author: "Robert C. Martin",
+    text: "Truth can only be found in one place: the code. Clean code always looks like it was written by someone who cares.",
+    length: "medium"
+  },
+  {
+    id: "en-q18",
+    author: "Alan Kay",
+    text: "The best way to predict the future is to invent it with your own hands and unwavering determination.",
+    length: "short"
+  },
+  {
+    id: "en-q19",
+    author: "Keebflow Practice",
+    text: "Consistency is the playground of mastery. Small deliberate keystrokes compound into extraordinary speed and fluid muscle memory.",
+    length: "medium"
+  },
+  {
+    id: "en-q20",
+    author: "Brian Kernighan",
+    text: "Controlling complexity is the essence of computer programming. Make the solution as simple as possible, but no simpler.",
+    length: "medium"
+  }
 ];
+
+/**
+ * Mengambil kutipan secara acak berdasarkan bahasa dan filter panjang kutipan
+ */
+export function getRandomQuote(language = 'id', lengthFilter = 'all') {
+  const pool = language === 'id' ? INDONESIAN_QUOTES : ENGLISH_QUOTES;
+  const filtered =
+    lengthFilter === 'all'
+      ? pool
+      : pool.filter((q) => q.length === lengthFilter);
+
+  const selected =
+    filtered.length > 0
+      ? filtered[Math.floor(Math.random() * filtered.length)]
+      : pool[Math.floor(Math.random() * pool.length)];
+
+  const text = typeof selected === 'string' ? selected : selected.text;
+  const author = typeof selected === 'object' ? selected.author : 'Anonim';
+  const id = typeof selected === 'object' ? selected.id : 'quote';
+
+  return {
+    id,
+    author,
+    text,
+    words: text.split(' ').filter(Boolean),
+    length: typeof selected === 'object' ? selected.length : 'medium'
+  };
+}
 
 // Rich Multi-Language Code Snippets for IDE Mode
 export const CODE_SNIPPETS = {
@@ -283,12 +539,100 @@ export function generateWeaknessDrill(weakKeys = [], wordCount = 30, language = 
   return prioritized.slice(0, wordCount).sort(() => 0.5 - Math.random());
 }
 
-export function getRandomWords(count = 35, mode = 'common', language = 'id') {
+/**
+ * Memasukkan tanda baca dan huruf kapital ke dalam daftar kata (Monkeytype Punctuation Mode)
+ */
+export function applyPunctuation(wordsList = []) {
+  if (!wordsList || wordsList.length === 0) return [];
+  const punctuationMarks = [',', '.', '.', '!', '?', ';', '"'];
+  let capitalizeNext = true;
+
+  return wordsList.map((word, idx) => {
+    let modified = word;
+
+    // Kapitalisasi huruf pertama jika awal kalimat
+    if (capitalizeNext && modified.length > 0) {
+      modified = modified.charAt(0).toUpperCase() + modified.slice(1);
+      capitalizeNext = false;
+    }
+
+    // Setiap ~4-7 kata, tambahkan tanda baca
+    const isLast = idx === wordsList.length - 1;
+    if (isLast) {
+      modified = `${modified}.`;
+    } else if (idx > 0 && idx % Math.floor(4 + (idx % 4)) === 0) {
+      const mark = punctuationMarks[Math.floor(Math.random() * punctuationMarks.length)];
+      if (mark === '"') {
+        modified = `"${modified}"`;
+      } else {
+        modified = `${modified}${mark}`;
+        if (['.', '!', '?'].includes(mark)) {
+          capitalizeNext = true;
+        }
+      }
+    }
+
+    return modified;
+  });
+}
+
+/**
+ * Menyisipkan angka secara acak ke dalam daftar kata (Monkeytype Numbers Mode)
+ */
+export function applyNumbers(wordsList = []) {
+  if (!wordsList || wordsList.length === 0) return [];
+  const numberGenerators = [
+    () => Math.floor(Math.random() * 90 + 10).toString(), // 10-99
+    () => Math.floor(Math.random() * 900 + 100).toString(), // 100-999
+    () => (1980 + Math.floor(Math.random() * 50)).toString(), // Tahun (1980-2030)
+    () => `${Math.floor(Math.random() * 9 + 1)}` // 1-9
+  ];
+
+  const result = [...wordsList];
+  // Sisipkan angka di sekitar 12-15% dari total kata
+  const countToInsert = Math.max(1, Math.floor(wordsList.length * 0.14));
+  const step = Math.max(3, Math.floor(wordsList.length / countToInsert));
+
+  for (let i = 2; i < result.length && i < wordsList.length; i += step) {
+    const gen = numberGenerators[Math.floor(Math.random() * numberGenerators.length)];
+    result[i] = gen();
+  }
+
+  return result;
+}
+
+/**
+ * Mengurai teks masukan kustom menjadi daftar kata yang siap diketik
+ */
+export function parseCustomText(rawText = '', shuffle = false) {
+  if (!rawText || !rawText.trim()) return [];
+  const words = rawText
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (shuffle) {
+    return [...words].sort(() => 0.5 - Math.random());
+  }
+  return words;
+}
+
+export function getRandomWords(count = 35, mode = 'common', language = 'id', options = {}) {
+  const { punctuation = false, numbers = false } = options;
   const source = language === 'id' ? INDONESIAN_WORDS : ENGLISH_WORDS;
   const shuffled = [...source].sort(() => 0.5 - Math.random());
-  const result = [];
+  let result = [];
   while (result.length < count) {
     result.push(...shuffled);
   }
-  return result.slice(0, count);
+  result = result.slice(0, count);
+
+  if (numbers) {
+    result = applyNumbers(result);
+  }
+  if (punctuation) {
+    result = applyPunctuation(result);
+  }
+
+  return result;
 }

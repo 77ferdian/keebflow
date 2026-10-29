@@ -55,6 +55,9 @@ export default function HomePage({
           .map(([k]) => k.toLowerCase());
         const query = sortedKeys.length > 0 ? `?keys=${sortedKeys.join(',')}` : '';
         navigate(`/type/drill${query}`);
+      } else if (e.key === '5') {
+        e.preventDefault();
+        navigate('/type/custom');
       } else if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
         navigate(`/type/time?sub=${timeSelected}`);

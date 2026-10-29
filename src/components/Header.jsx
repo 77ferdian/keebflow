@@ -8,7 +8,9 @@ import {
   LayoutGrid,
   Trophy,
   Flame,
-  Check
+  Check,
+  TrendingUp,
+  Download
 } from 'lucide-react';
 import { soundEngine } from '../utils/soundEngine';
 import { THEMES, getTheme } from '../utils/themeConfig';
@@ -23,15 +25,35 @@ export default function Header({
   onThemeChange,
   currentView,
   onToggleView,
-  onOpenSettings
+  onOpenSettings,
+  onOpenHistory
 }) {
   const [isSoundOpen, setIsSoundOpen] = useState(false);
   const [isThemeOpen, setIsThemeOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
   const soundMenuRef = useRef(null);
   const themeMenuRef = useRef(null);
 
   const themeObj = getTheme(theme);
   const { locale, t } = useLocale();
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+    }
+  };
 
   const soundProfileList = [
     { id: 'thock', ...t.soundProfiles.thock },
@@ -285,6 +307,32 @@ export default function Header({
           )}
         </div>
 
+        {/* Tombol Install PWA jika didukung oleh browser */}
+        {deferredPrompt && (
+          <button
+            type="button"
+            onClick={handleInstallClick}
+            className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono transition-all animate-pulse"
+            style={{ color: themeObj.primary, borderColor: `${themeObj.primary}40` }}
+            title={t.installAppPrompt}
+          >
+            <Download size={13} />
+            <span className="hidden md:inline">{t.installAppBtn}</span>
+          </button>
+        )}
+
+        {/* Tombol Riwayat & Tren Performa */}
+        {onOpenHistory && (
+          <button
+            type="button"
+            onClick={onOpenHistory}
+            className="p-1.5 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-zinc-200 transition-all active:scale-95 shadow-sm"
+            title={t.viewHistoryBtn}
+          >
+            <TrendingUp size={14} style={{ color: themeObj.primary }} />
+          </button>
+        )}
+
         {/* Tombol Pengaturan */}
         <button
           type="button"
@@ -316,5 +364,6 @@ Header.propTypes = {
   onThemeChange: PropTypes.func.isRequired,
   currentView: PropTypes.string.isRequired,
   onToggleView: PropTypes.func.isRequired,
-  onOpenSettings: PropTypes.func.isRequired
+  onOpenSettings: PropTypes.func.isRequired,
+  onOpenHistory: PropTypes.func
 };

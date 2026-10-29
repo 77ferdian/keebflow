@@ -15,8 +15,10 @@ import MonkeytypeChart from './MonkeytypeChart';
 import WordsHistory from './WordsHistory';
 import WatchReplay from './WatchReplay';
 import KeyboardHeatmap from './KeyboardHeatmap';
+import ProgressHistoryChart from './ProgressHistoryChart';
 import { getTheme } from '../utils/themeConfig';
 import { useLocale } from '../contexts/LocaleContext';
+import { getStatsHistory, clearStatsHistory } from '../utils/storage';
 
 export default function ResultModal({
   wpm = 0,
@@ -44,6 +46,8 @@ export default function ResultModal({
 }) {
   const [copied, setCopied] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [historyList, setHistoryList] = useState(() => getStatsHistory());
   const themeObj = getTheme(theme);
   const { locale, t } = useLocale();
 
@@ -348,7 +352,31 @@ export default function ResultModal({
           {copied ? <Check size={14} className="text-emerald-400" /> : <Share2 size={14} />}
           <span>{copied ? t.copiedToClipboard : t.shareScoreBtn}</span>
         </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setHistoryList(getStatsHistory());
+            setShowHistoryModal(true);
+          }}
+          className="flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 text-xs font-medium transition-all active:scale-95 border border-zinc-800"
+        >
+          <Sparkles size={14} style={{ color: themeObj.primary }} />
+          <span>{t.viewHistoryBtn}</span>
+        </button>
       </div>
+
+      {/* Modal Grafik Progress Historis */}
+      <ProgressHistoryChart
+        isOpen={showHistoryModal}
+        onClose={() => setShowHistoryModal(false)}
+        historyData={historyList}
+        onClearHistory={() => {
+          clearStatsHistory();
+          setHistoryList([]);
+        }}
+        theme={theme}
+      />
     </div>
   );
 }

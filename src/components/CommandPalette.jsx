@@ -19,7 +19,9 @@ export default function CommandPalette({
     // Pilihan Mode
     { id: 'mode-time', title: `${t.catMode}: ${t.modeTimeTitle} (15s / 30s / 60s)`, category: t.catMode, icon: Zap, action: () => onSelectAction('mode', 'time') },
     { id: 'mode-words', title: `${t.catMode}: ${t.modeWordsTitle} (10 / 25 / 50)`, category: t.catMode, icon: Zap, action: () => onSelectAction('mode', 'words') },
+    { id: 'mode-quote', title: `${t.catMode}: ${t.quoteBadge} (${t.quoteLengthAll} / ${t.quoteLengthShort} / ${t.quoteLengthMedium})`, category: t.catMode, icon: Flame, action: () => onSelectAction('mode', 'quote') },
     { id: 'mode-code', title: `${t.catMode}: ${t.modeCodeTitle}`, category: t.catMode, icon: Terminal, action: () => onSelectAction('mode', 'code') },
+    { id: 'mode-custom', title: `${t.catMode}: ${t.customModalTitle}`, category: t.catMode, icon: Sliders, action: () => onSelectAction('mode', 'custom') },
     { id: 'mode-daily', title: `${t.catMode}: ${t.modeDailyTitle}`, category: t.catMode, icon: Flame, action: () => onSelectAction('mode', 'daily') },
     { id: 'mode-drill', title: `${t.catMode}: ${t.modeDrillTitle}`, category: t.catMode, icon: Target, action: () => onSelectAction('mode', 'drill') },
 
